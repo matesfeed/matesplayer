@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Player</title>
+    <link
+      rel="stylesheet"
+      href="./bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="nav-bar">
+        <div class="nav-actions">
+          <div class="nav-btns">
+            <div class="nav-btn" data-target="matesfeed">
+              <img src="./icons/matesfeed.svg" alt="matesfeed" />
+              <p>MatesPlayer</p>
+            </div>
+            <div class="nav-btn" data-target="video">
+              <img src="./icons/video.svg" alt="video" />
+              <p>video</p>
+            </div>
+            <div class="nav-btn" data-target="playlist">
+              <img src="./icons/playlist.svg" alt="playlist" />
+              <p>playlist</p>
+            </div>
+            <div class="nav-btn" data-target="settings">
+              <img src="./icons/settings.svg" alt="settings" />
+              <p>settings</p>
+            </div>
+            <div class="nav-btn" data-target="shortcuts">
+              <img src="./icons/keyboard.svg" alt="shortcuts" />
+              <p>shortcuts</p>
+            </div>
+          </div>
+          <div class="toggle-nav-btn">
+            <img src="./icons/menu-close.svg" alt="toggle collapse" />
+            <p>collapse</p>
+          </div>
+        </div>
+        <div class="nav-info">
+          <div id="matesfeed" class="container nav-info-container">
+            <h3 class="mt-3">MatesPlayer</h3>
+            <hr />
+            <p>
+              MatesPlayer is a new desktop video player. It contains all the
+              basic features of the video player with nice interactive UI. It is
+              made using <b>electron js</b>
+              <br />
+              <br />
+              author: <b>sleepingsaint</b>
+              <br />
+              another name: <b>surya</b>
+              <br>
+              university: <b>IIT Kharagpur</b>
+              <br />
+              github: <b>github.com/sleepingsaint</b>
+              <br>
+              <p>
+                about me: <b>wasting time in projects like these and figuring out how to make css work as I want in the first try
+              </b></p>
+              <p>** Need programmers to support other video formats as for now it only supports .mp4</p>
+              <p>** Want to improve this player or want to work, feel free to make a pull request or
+              drop a message at <b>suryasantosh14523@gmail.com</b></p>
+            </p>
+          </div>
+          <div id="playlist" class="container nav-info-container">
+            <h3 class="mt-3">Playlist</h3>
+            <hr />
+            <button
+              class="btn btn-sm btn-secondary col-12 mb-2 choose-folder-btn"
+            >
+              <img src="./icons/folder.png" alt="choose folder" />
+              choose folder
+            </button>
+            <ul class="list-group playlist"></ul>
+          </div>
+          <div
+            id="video"
+            class="container nav-info-container active-nav-info-container"
+          >
+            <h3 class="mt-3">Videos</h3>
+            <hr />
+            <button
+              class="btn btn-sm btn-secondary col-12 mb-2 choose-video-btn"
+            >
+              <img src="./icons/video.png" alt="choose video" />
+              choose video(s)
+            </button>
+            <ul class="list-group videos-list"></ul>
+          </div>
+          <div id="shortcuts" class="container nav-info-container">
+            <h3 class="mt-3">Shortcuts</h3>
+            <hr />
+
+            <ul>
+              <li class="shortcut-item">
+                <img src="./icons/shortcuts/play-arrow.svg" alt="play" />
+                <span>Space</span>
+              </li>
+              <li class="shortcut-item">
+                <img src="./icons/shortcuts/pause.svg" alt="pause" />
+                <span> Space </span>
+              </li>
+              <li class="shortcut-item">
+                <img src="./icons/shortcuts/fullscreen.svg" alt="full screen" />
+                <span>
+                  F Key
+                </span>
+              </li>
+              <li class="shortcut-item">
+                <img src="./icons/shortcuts/loop.svg" alt="loop" />
+                <span>
+                  L Key
+                </span>
+              </li>
+              <li class="shortcut-item">
+                <img src="./icons/shortcuts/forward.svg" alt="forward" />
+                <span>
+                  Right Arrow
+                </span>
+              </li>
+              <li class="shortcut-item">
+                <img src="./icons/shortcuts/rewind.svg" alt="rewind" />
+                <span>
+                  Left Arrow
+                </span>
+              </li>
+              <li class="shortcut-item">
+                <img src="./icons/shortcuts/volume_up.svg" alt="high volume" />
+                <span>
+                  Up Arrow
+                </span>
+              </li>
+              <li class="shortcut-item">
+                <img src="./icons/shortcuts/volume_down.svg" alt="low volume" />
+                <span>
+                  Down Arrow
+                </span>
+              </li>
+              <li class="shortcut-item">
+                <img src="./icons/shortcuts/mute.svg" alt="mute volume" />
+                <span>M Key </span>
+              </li>
+            </ul>
+          </div>
+          <div id="settings" class="container nav-info-container">
+            <h3 class="mt-3">Settings</h3>
+            <hr />
+            <form id="settings-form">
+              <div class="form-group">
+                <label for="#skip-forward-input">forward track (sec)</label>
+                <input
+                  name="forward-track"
+                  type="number"
+                  class="form-control"
+                  id="forward-track"
+                  value="1"
+                />
+                <small class="form-text text-muted">
+                  number of seconds to forward the video
+                </small>
+              </div>
+              <div class="form-group">
+                <label for="#skip-rewind-input">rewind track (sec)</label>
+                <input
+                  name="rewind-track"
+                  type="number"
+                  class="form-control"
+                  id="rewind-track"
+                  value="1"
+                />
+                <small class="form-text text-muted">
+                  number of seconds to back the video
+                </small>
+              </div>
+              <div class="form-group">
+                <label for="#increase-volume-input">Increase volume (%)</label>
+                <input
+                  name="increase-volume"
+                  type="number"
+                  class="form-control"
+                  id="increase-volume"
+                  value="10"
+                />
+                <small class="form-text text-muted">
+                  percentage to increase the volume
+                </small>
+              </div>
+              <div class="form-group">
+                <label for="#decrease-volume-input">decrease volume (%)</label>
+                <input
+                  name="decrease-volume"
+                  type="number"
+                  class="form-control"
+                  id="decrease-volume"
+                  value="10"
+                />
+                <small class="form-text text-muted">
+                  percentage to decrease the volume
+                </small>
+              </div>
+              <button type="submit" class="btn btn-info">save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="video-container">
+        <video src="" controls></video>
+      </div>
+    </div>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const { ipcRenderer } = require("electron");
+
+        const navInfo = document.querySelector(".nav-info");
+        const videoContainer = document.querySelector(".video-container");
+        const navInfoContainers = document.querySelectorAll(
+          ".nav-info-container"
+        );
+        const toggleNavBtn = document.querySelector(".toggle-nav-btn");
+        const video = document.querySelector("video");
+        const playlist = document.querySelector(".playlist");
+        const videosList = document.querySelector(".videos-list");
+
+        var forwardTrack = document.getElementById("forward-track");
+        var rewindTrack = document.getElementById("rewind-track");
+        var increaseVolume = document.getElementById("increase-volume");
+        var decreaseVolume = document.getElementById("decrease-volume");
+
+        // sending the dom loaded signal
+        ipcRenderer.send("dom-loaded");
+        ipcRenderer.on("load-config", (e, config) => {
+          forwardTrack.value = config["forward-track"];
+          rewindTrack.value = config["rewind-track"];
+          increaseVolume.value = config["increase-volume"];
+          decreaseVolume.value = config["decrease-volume"];
+          if (config["last-played"] == "playlist") {
+            document.querySelector(".nav-btn[data-target='playlist']").click();
+          } else if (config["last-played"] == "videos") {
+            document.querySelector(".nav-btn[data-target='video']").click();
+          } else {
+            document.querySelector(".nav-btn[data-target='matesfeed']").click();
+          }
+          createVideos(config["videos"]);
+          createPlaylist(config["playlist"], config["playlist-path"]);
+        });
+
+        // handling the nav btn
+        document.querySelectorAll(".nav-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            let target = btn.dataset.target;
+            document.querySelectorAll(".nav-btn").forEach((_btn) => {
+              _btn.classList.remove("active-nav-btn");
+            });
+            btn.classList.add("active-nav-btn");
+
+            navInfoContainers.forEach((container) => {
+              container.classList.remove("active-nav-info-container");
+            });
+            document
+              .getElementById(target)
+              .classList.add("active-nav-info-container");
+            if (navInfo.style.display == "none") {
+              toggleNavBtn.click();
+            }
+          });
+        });
+
+        // toggling the info container
+        toggleNavBtn.addEventListener("click", () => {
+          if (navInfo.style.display == "none") {
+            navInfo.style.display = "block";
+            videoContainer.style.width = "calc(100% - 400px)";
+            toggleNavBtn.children[0].src = "./icons/menu-close.svg";
+            toggleNavBtn.children[1].innerHTML = "collapse";
+          } else {
+            navInfo.style.display = "none";
+            videoContainer.style.width = "calc(100% - 100px)";
+            toggleNavBtn.children[0].src = "./icons/menu.svg";
+            toggleNavBtn.children[1].innerHTML = "expand";
+          }
+        });
+
+        // sending choose folder request
+        document
+          .querySelector(".choose-folder-btn")
+          .addEventListener("click", function () {
+            ipcRenderer.send("choose-folder");
+          });
+
+        ipcRenderer.on("playlist", (e, _playlist, _path) => {
+          createPlaylist(_playlist, _path);
+        });
+
+        // sending choose video request
+        document
+          .querySelector(".choose-video-btn")
+          .addEventListener("click", () => {
+            ipcRenderer.send("choose-videos");
+          });
+
+        ipcRenderer.on("videos", (e, _videos) => {
+          createVideos(_videos);
+        });
+
+        // shortcuts
+        document.onkeydown = (event) => {
+          switch (event.keyCode) {
+            case 32:
+              // toggle play & pause
+              video.paused ? video.play() : video.pause();
+              break;
+
+            case 70:
+              // toggle fullscreen
+              document.fullscreenElement != null
+                ? document.exitFullscreen()
+                : video.webkitRequestFullScreen();
+              break;
+
+            case 37:
+              // back track
+              video.currentTime =
+                video.currentTime < rewindTrack.value
+                  ? 0
+                  : Math.round(video.currentTime - rewindTrack.value);
+              break;
+            case 39:
+              // forward track
+              video.currentTime =
+                video.duration < parseFloat(forwardTrack.value) + video.currentTime
+                  ? video.duration
+                  : Math.round(video.currentTime + parseFloat(forwardTrack.value));
+              break;
+            case 76:
+              // looping the video
+              video.loop = !video.loop;
+              break;
+
+            case 38:
+              // increase volume
+              video.volume +=
+                video.volume + increaseVolume.value / 100 > 1
+                  ? 0
+                  : increaseVolume.value / 100;
+              break;
+            case 40:
+              // decrease volume
+              video.volume -=
+                video.volume - decreaseVolume.value / 100 < 0
+                  ? 0
+                  : decreaseVolume.value / 100;
+              break;
+            case 77:
+              // toggle mute
+              video.muted = video.muted ? false : true;
+              break;
+          }
+        };
+
+        // updating config
+        document
+          .getElementById("settings-form")
+          .addEventListener("submit", (e) => {
+            e.preventDefault();
+            ipcRenderer.send("update-settings", {
+              "forward-track": forwardTrack.value,
+              "rewind-track": rewindTrack.value,
+              "increase-volume": increaseVolume.value,
+              "decrease-volume": decreaseVolume.value,
+            });
+          });
+
+        function createPlaylist(_playlist, _path) {
+          playlist.innerHTML = "";
+
+          let playlistPath = document.createElement("li");
+          playlistPath.classList = ["list-group-item mb-3"];
+          if (_path == "") {
+            playlistPath.innerHTML = "please select folder first";
+            playlist.appendChild(playlistPath);
+          } else {
+            playlistPath.innerHTML = _path;
+            playlist.appendChild(playlistPath);
+
+            if (_playlist.length > 0) {
+              _playlist.forEach((_item) => {
+                let playlistItem = document.createElement("li");
+                playlistItem.classList = ["list-group-item play-item"];
+                playlistItem.dataset.src = _item.path;
+                playlistItem.type = _item.type;
+                playlistItem.addEventListener("click", () => {
+                  if (_item.type == "vid") {
+                    video.src = _item.path;
+                    document
+                      .querySelectorAll(".play-item")
+                      .forEach((_playItem) => {
+                        _playItem.classList.remove("active-play-item");
+                      });
+                    playlistItem.classList.add("active-play-item");
+                  } else {
+                    ipcRenderer.send("list-folder", _item.path);
+                  }
+                });
+                if (_item.type == "dir") {
+                  let _img = document.createElement("img");
+                  _img.src = "./icons/folder-outline-icon.png";
+                  _img.alt = "folder icon";
+                  _img.classList.add("mr-2");
+                  playlistItem.appendChild(_img);
+                }
+                let _itemTitle = document.createElement("span");
+                _itemTitle.innerHTML = _item.title;
+                playlistItem.appendChild(_itemTitle);
+                playlist.appendChild(playlistItem);
+              });
+            } else {
+              playlistPath.innerHTML = "No supported media in the folder";
+              playlist.appendChild(playlistPath);
+            }
+          }
+        }
+        function createVideos(_videos) {
+          if (_videos.length > 0) {
+            videosList.innerHTML = "";
+            _videos.forEach((_video) => {
+              let videoItem = document.createElement("li");
+              videoItem.classList = ["list-group-item play-item"];
+              videoItem.dataset.src = _video.path;
+              videoItem.type = _video.type;
+              videoItem.innerHTML = _video.title;
+              videoItem.addEventListener("click", () => {
+                video.src = _video.path;
+                document.querySelectorAll(".play-item").forEach((_playItem) => {
+                  _playItem.classList.remove("active-play-item");
+                });
+                videoItem.classList.add("active-play-item");
+              });
+              videosList.appendChild(videoItem);
+            });
+          } else {
+            let noVideoItem = document.createElement("li");
+            noVideoItem.classList = ["list-group-item mb-3"];
+            noVideoItem.innerHTML = "No videos selected!";
+            videosList.appendChild(noVideoItem);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

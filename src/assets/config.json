@@ -1,0 +1,10 @@
+{
+  "forward-track": "1",
+  "rewind-track": "1",
+  "increase-volume": "10",
+  "decrease-volume": "10",
+  "last-played": "",
+  "playlist-path": "",
+  "playlist": [],
+  "videos": []
+}
